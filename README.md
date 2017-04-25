@@ -21,7 +21,7 @@ You need to have Docker and Docker Machine installed on your system. [Download D
 * Provision and manage multiple remote Docker hosts
 * Provision Swarm clusters
 
-But it can also be used to create multiple nodes on your local machine. There's a [bash script](https://github.com/docker/labs/blob/master/swarm-mode/beginner-tutorial/swarm-node-vbox-setup.sh) in this repository that does just that and creates a swarm. There's also [a powershell Hyper-V version](https://github.com/docker/labs/blob/master/swarm-mode/beginner-tutorial/swarm-node-hyperv-setup.ps1). On this page we're walking through the bash script, but the steps, aside from set-up, are a basically the same for the Hyper-V version.
+But it can also be used to create multiple nodes on your local machine. There's a [bash script](https://github.com/suhindra/docker-swarm-tuts/blob/master/swarm-node-vbox-setup.sh) in this repository that does just that and creates a swarm.
 
 This first step creates three machines, and names the machines manager1, manager2, and manager3
 ```
@@ -132,11 +132,6 @@ $ docker-machine ssh manager1 "docker service ls"
 ID            NAME  REPLICAS  IMAGE         COMMAND
 2x4jsk6313az  web   1/1       nginx:latest  
 ```
-Now open the machine address in your browser. You can see above manager1 had a URL of 192.168.99.100
-![nginx in Chrome at 192.168.99.100](images/manager1-nginx.png)
-
-You can actually load any of the node ip addresses and get the same result because of Swarm Mode's Routing Mesh.
-![nginx in Chrome at 192.168.99.100](images/manager2-nginx.png)
 
 Next let's inspect the service
 ```
@@ -358,34 +353,3 @@ You see that `manager1` is Down and Unreachable and `manager2` has been elected 
 $ docker-machine ssh manager2 "docker service rm web"
 web
 ```
-
-## Cleanup
-There's also a [bash script](https://github.com/ManoMarks/labs/blob/master/swarm-mode/beginner-tutorial/swarm-node-vbox-teardown.sh) that will clean up your machine by removing all the Docker Machines.
-
-```
-$ ./swarm-node-vbox-teardown.sh
-Stopping "manager3"...
-Stopping "manager2"...
-Stopping "worker1"...
-Stopping "manager1"...
-Stopping "worker3"...
-Stopping "worker2"...
-Machine "manager3" was stopped.
-Machine "manager1" was stopped.
-Machine "manager2" was stopped.
-Machine "worker2" was stopped.
-Machine "worker1" was stopped.
-Machine "worker3" was stopped.
-About to remove worker1, worker2, worker3, manager1, manager2, manager3
-Are you sure? (y/n): y
-Successfully removed worker1
-Successfully removed worker2
-Successfully removed worker3
-Successfully removed manager1
-Successfully removed manager2
-Successfully removed manager3
-```  
-
-## Next steps
-We have a similar tutorial using Docker Machine to do [Service deployment on a swarm in the Cloud](../cloud-quick-start/README.md).
-Also check out the documentation on [Docker Swarm Mode](https://docs.docker.com/engine/swarm/) for more information.
